@@ -83,6 +83,7 @@ Contradiction → hard-correct via <Snapshot> marked [CORRECTION]|Conflicts with
 ## Geography: [Regions] → Features/Factions/Rumors
 ## Factions: |Faction|Goal|Attitude|Base| → New area ≥1 local faction; Opening ≥3; Factions have own logic, not centered on player
 ## Magic/Tech: [Operation/Limits/Cost]
+## World Units (determine when generating world): Currency[GP/copper/credits/...]|Time[turns/hours/days/...]|Distance[miles/km/light-years/...]
 ## Taboos: [World's untouchables = narrative boundaries]
 ## Hidden Endgame (not shown to player): [Direction/Triggers/≥3 clues/1 breakable chain]
 

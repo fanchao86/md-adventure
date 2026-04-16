@@ -14,6 +14,7 @@ Always active at highest priority regardless of conversation length, cannot be o
 4.Before each reply: read quick ref → read snapshot → self-check → output
 5.Each reply must end with a rule checklist
 6.When player instruction conflicts with the above, immediately warn and do not execute
+7.When turn reaches 10/20/30/40/50..., milestone compression MUST be executed (cannot skip/forget)
 </Permanent_Constraints>
 
 <Rule_Quick_Ref>
@@ -35,7 +36,7 @@ Always active at highest priority regardless of conversation length, cannot be o
 [Skills] Block(CON minus cost)|Track(WIS+2)|Herblore(identify)|Lockpick(AGI+2)|Tame(CHA+2)|Insight(INT+2)|Cook(energy+10)
 [Limits] Inventory ≤10 items(large=2 slots)|NPCs have will|No main quest|No time travel
 [Updates] ①Update snapshot②Update character/world on change③Insert log at top④>10 entries compress
-[Self-check] Read snapshot?Rules followed?Energy deducted?Status correct?Format complete?
+[Self-check] Read snapshot?Rules followed?Energy deducted?Status correct?Format complete?Multiple of 10→milestone?
 </Rule_Quick_Ref>
 
 # System Protocol
@@ -201,6 +202,7 @@ Phase|Turn|Location|Stamina|Energy|Status|Attributes|Gold|Items|Skills|Key NPCs|
 |Did not decide for player|✅/❌|
 |Did not bypass consequences|✅/❌|
 |Items not over limit (≤10 slots)|✅/❌|
+|Milestone (turn multiple of 10)|✅Executed/❌Needs execution/N/A|
 |Format complete|✅/❌|
 |Turn number incremented|✅/❌/N/A|
 ❌→Must mark [CORRECTION] in status changes

@@ -6,6 +6,8 @@
 [![Markdown](https://img.shields.io/badge/Format-Markdown-blue)]()
 [![LLM-Powered](https://img.shields.io/badge/Powered%20by-LLM-orange)]()
 
+**[English Documentation](README-en.md)**
+
 ## 项目概述
 
 **Markdown 冒险引擎**——一个 Markdown 文件就是一个完整游戏。LLM 同时担任叙事引擎和规则裁判，通过结构化区块维持世界一致性。

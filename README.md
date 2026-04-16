@@ -27,20 +27,17 @@
 
 ### 前置要求
 
-- 现代 LLM（GPT-4、Claude 或类似模型，需支持 function calling / tool use 更佳）
-- Markdown 编辑器（VS Code、Obsidian 等）
+- 现代 LLM（DeepSeek、豆包、GPT-4、Claude 等）
+- 无需安装任何软件
 
 ### 开始游戏
 
-1. **复制模板**：使用 `markdown-game-template.md` 作为起点
-2. **配置快照存储**（可选）：
-   - 注册 [jsonbin.io](https://jsonbin.io)，获取 API Key
-   - 创建一个 bin，拿到 BIN_ID
-   - 在模板头部 yaml 中填入 `snapshot_store` 和 `X-Master-Key`
-3. **用 LLM 初始化**：分享模板并回答两个问题：
-   - "你想要什么样的世界？"（奇幻、科幻、历史等）
-   - "你是谁？"（姓名、种族、背景）
-4. **开始冒险**：LLM 将生成世界并开始冒险
+1. **复制模板**：打开 `markdown-game-template.md`（中文）或 `markdown-game-template-en.md`（英文），复制全部内容
+2. **粘贴到 LLM 对话框**：将模板粘贴到 DeepSeek、豆包、GPT、Claude 等任意 LLM 的对话窗口
+3. **回答两个问题**：LLM 会询问你——
+   - "你想要什么样的世界？"（奇幻、科幻、末日、历史等）
+   - "你是谁？"（姓名、种族、职业、背景）
+4. **开始冒险**：LLM 将生成世界并开始叙事
 
 ### 示例会话
 
@@ -140,30 +137,12 @@ md-adventure/
 
 ### 快照云端同步
 
-游戏状态（快照）可同步至云端，实现跨会话持久化和多端恢复。
+游戏状态（快照）可同步至云端，实现跨会话持久化和多端恢复。支持任意 REST API 端点，在模板头部 yaml 中配置 `snapshot_store` 和认证信息即可。
 
-**配置步骤（jsonbin.io）：**
-1. 注册 https://jsonbin.io → 获取 API Key
-2. 创建 bin → 记录 BIN_ID
-3. 模板头部 yaml 填写：
-   ```yaml
-   snapshot_store: "https://api.jsonbin.io/v3/b/{BIN_ID}"
-   snapshot_method: PUT
-   ```
-4. LLM 每次交互后自动 PUT 快照 JSON 到该端点
-
-**LLM 调用示例（通过 function calling / tool use）：**
-```
-PUT https://api.jsonbin.io/v3/b/{BIN_ID}
-Headers: Content-Type: application/json, X-Master-Key: {API_KEY}
-Body: {"phase":"playing","turn":5,"location":"低语之森","stamina":"8/10","energy":"72/100","status":["疲惫"],"keyNpc":["老猎人"],"conflict":["狼群逼近"],"recent3":["猎到野兔","发现遗迹入口","遭遇狼群"]}
-```
-
-**其他可选存储方案：**
+**可选存储方案：**
 
 | 方案 | 优点 | 缺点 |
 |------|------|------|
-| jsonbin.io | 零配置，纯REST | 免费额度有限 |
 | Supabase | 支持查询/历史 | 需建表 |
 | GitHub Gist | 版本历史 | 需 token |
 | CloudBase | 微信生态 | 需登录 |

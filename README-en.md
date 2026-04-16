@@ -25,20 +25,17 @@
 
 ### Prerequisites
 
-- Modern LLM (GPT-4, Claude or similar; function calling / tool use support recommended)
-- Markdown editor (VS Code, Obsidian, etc.)
+- Modern LLM (DeepSeek, Doubao, GPT-4, Claude, etc.)
+- No software installation required
 
 ### Starting a Game
 
-1. **Copy the template**: Use `markdown-game-template-en.md` as your starting point
-2. **Configure snapshot storage** (optional):
-   - Register at [jsonbin.io](https://jsonbin.io), get an API Key
-   - Create a bin, note the BIN_ID
-   - Fill in `snapshot_store` and `X-Master-Key` in the template header yaml
-3. **Initialize with LLM**: Share the template and answer two questions:
-   - "What kind of world do you want?" (fantasy, sci-fi, historical, etc.)
-   - "Who are you?" (name, race, background)
-4. **Begin your adventure**: The LLM will generate the world and start the adventure
+1. **Copy the template**: Open `markdown-game-template.md` (Chinese) or `markdown-game-template-en.md` (English), copy all content
+2. **Paste into LLM chat**: Paste the template into any LLM's chat window — DeepSeek, Doubao, GPT, Claude, etc.
+3. **Answer two questions**: The LLM will ask you —
+   - "What kind of world do you want?" (fantasy, sci-fi, post-apocalypse, historical, etc.)
+   - "Who are you?" (name, race, class, background)
+4. **Begin your adventure**: The LLM will generate the world and start the narrative
 
 ### Example Session
 
@@ -141,30 +138,12 @@ The Narrator will execute the refresh process: rewrite rules to latest position 
 
 ### Snapshot Cloud Sync
 
-Game state (snapshot) can be synced to the cloud for cross-session persistence and multi-device recovery.
+Game state (snapshot) can be synced to the cloud for cross-session persistence and multi-device recovery. Supports any REST API endpoint — configure `snapshot_store` and authentication in the template header yaml.
 
-**Setup (jsonbin.io):**
-1. Register at https://jsonbin.io → get API Key
-2. Create bin → note BIN_ID
-3. Fill in template header yaml:
-   ```yaml
-   snapshot_store: "https://api.jsonbin.io/v3/b/{BIN_ID}"
-   snapshot_method: PUT
-   ```
-4. LLM automatically PUTs snapshot JSON to the endpoint after each interaction
-
-**LLM Call Example (via function calling / tool use):**
-```
-PUT https://api.jsonbin.io/v3/b/{BIN_ID}
-Headers: Content-Type: application/json, X-Master-Key: {API_KEY}
-Body: {"phase":"playing","turn":5,"location":"Whispering Woods","stamina":"8/10","energy":"72/100","status":["fatigued"],"keyNpc":["Old Hunter"],"conflict":["Wolf pack approaching"],"recent3":["Hunted hare","Found ruin entrance","Encountered wolves"]}
-```
-
-**Alternative Storage Options:**
+**Storage Options:**
 
 | Option | Pros | Cons |
 |--------|------|------|
-| jsonbin.io | Zero config, pure REST | Limited free tier |
 | Supabase | Query/history support | Requires table setup |
 | GitHub Gist | Version history | Requires token |
 | CloudBase | WeChat ecosystem | Requires login |

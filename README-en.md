@@ -6,6 +6,8 @@
 [![Markdown](https://img.shields.io/badge/Format-Markdown-blue)]()
 [![LLM-Powered](https://img.shields.io/badge/Powered%20by-LLM-orange)]()
 
+**[中文文档](README.md)**
+
 ## Overview
 
 **Markdown Adventure Engine** — one Markdown file is a complete game. The LLM serves as both the narrative engine and rules arbiter, maintaining world consistency through structured blocks.
@@ -16,22 +18,22 @@
 - **Infinite worlds**: Fantasy, sci-fi, post-apocalypse, history — any world you can imagine
 - **Dynamic narrative**: LLM-powered Narrator creates immersive stories
 - **Structured state management**: Snapshot as the sole source of truth, preventing narrative drift
-- **Five-layer anti-drift mechanism**: Meta-instruction lock / XML tag anchoring / Per-turn self-check output / Self-contained snapshot / Context refresh
+- **Multi-layer anti-drift mechanism**: Permanent constraints / Quick ref anchoring / Per-turn self-check / Self-contained snapshot / Context refresh
 - **Free exploration**: No forced main quest, players decide their own path
-- **Real consequences**: Actions have lasting effects, including adventure termination
+- **Real consequences**: Actions have lasting effects, including adventure ending
 - **AI-first design**: Template optimized for AI parsability, minimal token cost
 
 ## Quick Start
 
 ### Prerequisites
 
-- Modern LLM (DeepSeek, Doubao, GPT-4, Claude, etc.)
+- Modern LLM (DeepSeek, GPT-4, Claude, etc.)
 - No software installation required
 
 ### Starting a Game
 
 1. **Copy the template**: Open `markdown-game-template.md` (Chinese) or `markdown-game-template-en.md` (English), copy all content
-2. **Paste into LLM chat**: Paste the template into any LLM's chat window — DeepSeek, Doubao, GPT, Claude, etc.
+2. **Paste into LLM chat**: Paste the template into any LLM's chat window — DeepSeek, GPT, Claude, etc.
 3. **Answer two questions**: The LLM will ask you —
    - "What kind of world do you want?" (fantasy, sci-fi, post-apocalypse, historical, etc.)
    - "Who are you?" (name, race, class, background)
@@ -40,7 +42,7 @@
 ### Example Session
 
 ```
-Player: I want a medieval fantasy world with magic and dragons.
+Player: I want a medieval fantasy world with special abilities and dragons.
 Player: I am Elara, a half-elf ranger searching for ancient artifacts.
 
 Narrator: [Generates world setting, factions, and starting scene]
@@ -51,8 +53,8 @@ Narrator: You stand at the edge of the Whispering Woods...
 
 ```
 md-adventure/
-├── README.md                    # Chinese documentation (this file's counterpart)
-├── README-en.md                 # English documentation
+├── README.md                    # Chinese documentation
+├── README-en.md                 # English documentation (this file)
 ├── markdown-game-template.md    # Chinese game template
 └── markdown-game-template-en.md # English game template
 ```
@@ -61,37 +63,32 @@ md-adventure/
 
 | Section | Purpose | Update Frequency |
 |---------|---------|-----------------|
-| Permanent Constraints `<Permanent_Constraints>` | Meta-instruction lock, highest priority rules that cannot be overridden | Never |
-| Rule Quick Ref `<Rule_Quick_Ref>` | Ultra-compressed core rules, must read before each reply | Rarely |
-| Core Bans `<Core_Bans>` | 6 inviolable behavioral red lines | Never |
-| System Protocol | LLM behavior constraints (detail/correction/self-check) | Rarely |
-| World Setting | Background, factions, geography, endgame | Occasionally |
-| Game Rules | Resolution/encounters/energy/economy/growth | Fixed |
-| Character | Attributes, items, gold, skills | On change |
-| Snapshot `<Snapshot>` | Sole source of truth (self-contained design), can sync to cloud | After each interaction |
-| Current Scene | Location, atmosphere, perception | Each turn |
-| History Log | Reverse-chronological event stream | Each turn |
-| World State | NPCs, faction dynamics, explored/unexplored | After key events |
+| Permanent Constraints | Highest priority rules, cannot be overridden | Never |
+| Quick Ref | Ultra-compressed core rules, must read before each reply | Rarely |
+| Snapshot | Sole source of truth (self-contained design) | After each interaction |
+| Setup Flow | Initialize / build world / character template | At initialization |
+| Game Flow | Self-check / output modules / command list | Fixed |
+| Game Rules | Resolution / encounters / survival / growth | Fixed |
 
 ## Design Philosophy
 
 1. **Simplicity**: No installation, just Markdown
 2. **Portability**: GitHub, local, cloud storage — works anywhere
 3. **Transparency**: Complete game state is visible and editable
-4. **Anti-drift**: Five layers of defense (meta-instructions/XML tags/per-turn self-check/self-contained snapshot/context refresh), preventing LLM memory drift
+4. **Anti-drift**: Multi-layer defense (permanent constraints / quick ref / per-turn self-check / self-contained snapshot / context refresh), preventing LLM memory drift
 5. **Context management**: Structured sections + milestone compression + proactive refresh, maintaining consistency in long sessions
 
-## Anti-Drift Mechanism (v1.1 Core Upgrade)
+## Anti-Drift Mechanism
 
-The biggest pain point in long LLM sessions is context loss and rule forgetting. v1.1 introduces a five-layer anti-drift mechanism:
+The biggest pain point in long LLM sessions is context loss and rule forgetting. This template introduces a multi-layer anti-drift mechanism:
 
-| Layer | Technique | Implementation | Principle |
-|-------|-----------|----------------|-----------|
-| Layer 1 | Meta-instruction lock | `<Permanent_Constraints>` tag wrapping 6 permanent constraints | Declares "always active regardless of conversation length", model treats as highest priority |
-| Layer 2 | XML tag anchoring | `<Rule_Quick_Ref>` / `<Core_Bans>` / `<Snapshot>` | Models are more sensitive to structured tags than plain text; tags enable easy reference |
-| Layer 3 | Per-turn self-check output | Mandatory "rule checklist" at end of each reply | Forces model to re-read rules each turn, preventing entry into cold data zone |
-| Layer 4 | Self-contained snapshot | `<Snapshot>` includes attributes/items/gold/skills/goals/difficulty | Game can be restored from snapshot alone, without dialogue history |
-| Layer 5 | Context refresh | Proactive compression every 10 turns + player can manually "refresh"/"calibrate" | Rewrites rules from "distant memory" to "recent memory", equivalent to context reset |
+| Layer | Technique | Principle |
+|-------|-----------|-----------|
+| Layer 1 | Permanent constraints table | Declares "must/must not" constraints, model treats as highest priority |
+| Layer 2 | Quick ref anchoring | Structured table format, models are more sensitive to tables than plain text |
+| Layer 3 | Per-turn self-check output | Mandatory 8-item self-check before each reply, preventing entry into cold data zone |
+| Layer 4 | Self-contained snapshot | Snapshot contains complete game state, game can be restored from snapshot alone |
+| Layer 5 | Context refresh | Proactive compression every 10 turns + player can manually "refresh"/"calibrate" |
 
 ### Player Actions
 
@@ -104,25 +101,24 @@ The Narrator will execute the refresh process: rewrite rules to latest position 
 
 ### Turn System
 - Effective in-world action → turn+1; Chat/query/clarification does not consume
-- Chapter transitions can display complete data without extra +1
+- Chapter transitions do not add +1
 
 ### Action Resolution
 - Certain (walk/pick up/speak) → direct success
-- Risky (climb/cross/persuade) → five-tier resolution (great success/success/barely/failure/critical failure)
+- Risky (climb/cross/persuade) → five-tier resolution (great success/success/barely/setback/severe setback)
 - Resolution matrix: Attribute value vs Difficulty level (3/5/7/9), equipment +1~2, situation -1~2
 
 ### Encounter System
 - Turn-based: Player → resolve → situational response → loop
-- Cost: 1+attribute÷2, great success ×1.5
-- Resist: Dodge(AGI)/Block(CON)/Armor flat reduction (1-4)
-- 4 Challenge tiers: Light → Medium → Severe → Extreme
-- Negative status: Fatigue/Confused/Disarmed/Staggered
+- Cost: Determined by action type and attribute, great success halves cost
+- Defense: Dodge(agility) / Parry(constitution) / Armor reduces damage
+- 3 Challenge tiers: Normal → Dangerous → Severe
+- Conditions: Fatigue/Confused/Disarmed/Staggered
 
 ### Survival System
-- Stamina: CON×2, zero = adventure terminated, rest +1/turn
-- Energy: 100→-1 per turn, ≤30/-1 attribute, ≤10/-2 attribute + movement restricted, 0→stamina -2/turn
-- Economy: GP currency, haggling requires CHA resolution
-- GP cannot go negative (insufficient funds: cannot purchase)
+- Stamina: CON×2, depleted = adventure ends, rest or items can restore
+- Energy: 100→-1 per turn (tense: additional -1), low energy → attribute penalty, depleted → stamina -2/turn
+- Economy: Currency, buy at price/sell at half, haggling requires CHA resolution, cannot go negative
 
 ### NPC System
 - NPCs have autonomous behavioral logic
@@ -130,9 +126,9 @@ The Narrator will execute the refresh process: rewrite rules to latest position 
 - Attitude shifts dynamically with player behavior
 
 ### Growth
-- Triggers: overcome severe challenge/complete commission/discover truth/explore new area/every 10 turns
+- Triggers: overcome major challenge/complete commission/discover truth/explore new area/every 10 turns
 - Amount: Attribute +1 or 1 new skill, choose only one per trigger
-- 7 preset skills: Block/Track/Herblore/Lockpick/Tame/Insight/Cook
+- 7 preset skills: Parry/Track/Herblore/Decipher/Tame/Insight/Cook
 
 ## Advanced Usage
 
@@ -152,14 +148,14 @@ Game state (snapshot) can be synced to the cloud for cross-session persistence a
 Long session overflow prevention:
 1. Automatic log compression (every 10 turns)
 2. Simplify explored areas on scene change
-3. LLM prioritizes reading `<Rule_Quick_Ref>` + `<Snapshot>` + current scene + world state
+3. LLM prioritizes reading Quick Ref + Snapshot + current scene + world state
 4. Proactive context refresh every 10 turns (rewrite rules to latest position)
 
 ### Milestone Compression (every 10 turns)
 - Archive snapshot to log
 - Compress old logs into structured summary (key events/important changes/goal clues)
 - Simplify world state and explored areas
-- Rewrite `<Rule_Quick_Ref>` and `<Snapshot>` to latest position
+- Rewrite quick ref and snapshot to latest position
 - Notify player
 
 ### Customization Options
